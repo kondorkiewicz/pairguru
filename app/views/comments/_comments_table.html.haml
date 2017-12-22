@@ -1,0 +1,10 @@
+%table.table.table-striped
+  %tbody
+    - comments.each do |comment|
+      %tr
+        %td
+          %h4= comment.user.email
+          %h4= comment.title
+          %p= comment.body
+          - if current_user && comment.user.id == current_user.id
+            = link_to "Delete", comment_path(comment), { method: :delete }

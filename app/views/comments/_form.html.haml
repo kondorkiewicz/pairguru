@@ -1,0 +1,11 @@
+= form_for Comment.new do |f|
+  %form
+    .form-group
+      = hidden_field_tag :movie_id, @movie.id
+      = f.label :title
+      = f.text_field :title
+    .form-group
+      = f.label :body
+      = f.text_area :body
+    .form-group
+      = f.submit "Save"

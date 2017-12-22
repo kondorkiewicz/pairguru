@@ -28,7 +28,7 @@ group :development, :test do
   gem "factory_girl_rails"
   gem "faker"
   gem "rspec-rails"
-  gem "rubocop"
+  gem 'rubocop', '~> 0.52.0', require: false
   gem "simplecov"
 end
 
