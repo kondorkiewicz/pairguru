@@ -1,20 +1,37 @@
 require "rails_helper"
 
 describe Comment do
-  before do
-    @comment = Comment.create(movie_id: 1, user_id: 1)
+
+  describe "database columns" do
+    it { should have_db_column(:id) }
+    it { should have_db_column(:title) }
+    it { should have_db_column(:body) }
+    it { should have_db_column(:user_id) }
+    it { should have_db_column(:movie_id) }
+    it { should have_db_column(:created_at) }
+    it { should have_db_column(:updated_at) }
   end
 
-  it "is invalid when user already commented a movie" do
-    duplicate_comment = @comment.dup
-    expect(duplicate_comment).to be_invalid
+  describe "validations" do
+    it { should validate_presence_of(:title) }
+    it { should validate_presence_of(:body) }
+    it { should validate_presence_of(:user_id) }
+    it { should validate_presence_of(:movie_id) }
+    it {
+      should validate_uniqueness_of(:user_id).scoped_to(:movie_id)
+        .with_message("is allowed to write only one comment under a movie.")
+    }
   end
 
-  it "is valid when user_id is unique in scope of a movie" do
-    expect(Comment.new(movie_id:1, user_id: 2)).to be_valid
+  describe ".top_commenters" do
+    let(:users) { create_list(:user, 11) }
+    before { users.each { |user| create_list(:comment, user.id, user: user) } }
+    it {
+      top_commenters = Comment.top_commenters
+      expect(top_commenters.length).to eq(10)
+      expect(top_commenters.first.email).to eq(users.last.email)
+    }
+
   end
 
-  it "is valid when movie_id is unique in scope of a user" do
-    expect(Comment.new(movie_id: 2, user_id: 1)).to be_valid
-  end
 end

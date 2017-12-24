@@ -5,9 +5,9 @@ FactoryGirl.define do
     released_at { Faker::Date.between(40.years.ago, Time.zone.today) }
     genre
 
-    trait :with_comments do
+    trait :with_comment do
       after(:create) do |movie|
-        create_list :comment, 5, movie: movie
+        create_list :comment, 1, user_id: 1, movie: movie
       end
     end
   end

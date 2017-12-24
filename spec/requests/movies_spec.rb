@@ -19,9 +19,9 @@ describe "Movies requests", type: :request do
       end
     end
 
-    context "with comments" do
-      let(:movie) { FactoryGirl.create(:movie, :with_comments) }
-      it "shows movie's comments" do
+    context "with comment" do
+      let(:movie) { FactoryGirl.create(:movie, :with_comment) }
+      it "shows movie's comment" do
         visit "movies/#{movie.id}"
         expect(page).to have_content("Comments:")
         expect(page).not_to have_content("What do you think about this movie?")
@@ -29,12 +29,17 @@ describe "Movies requests", type: :request do
     end
 
     context "user logged_in" do
-      let(:movie) { FactoryGirl.create(:movie) }
-      let(:user) { FactoryGirl.create(:user) }
+      let(:movie) { FactoryGirl.create(:movie, :with_comment) }
+      let(:user) { FactoryGirl.build(:user, id: 2) }
       before { login_as(user, scope: :user) }
       it "allows user to comment" do
         visit "/movies/#{movie.id}"
         expect(page).to have_content("What do you think about this movie?")
+      end
+
+      it "doesn't allow to delete someone else's comment" do
+        visit "/movies/#{movie.id}"
+        expect(page).not_to have_selector("a", text: "Delete")
       end
     end
   end

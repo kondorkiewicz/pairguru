@@ -7,14 +7,22 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to @movie
     else
-      redirect_to @movie, flash: { error: "You've already wrote a comment!" }
+      redirect_to @movie, flash: { error: @comment.errors.full_messages.first }
     end
   end
 
   def destroy
     @comment = Comment.find(params[:id])
-    c = @comment.destroy
-    redirect_to movie_path(c.movie) 
+    if @comment.user_id != current_user.id
+      redirect_to movie_path(@comment.movie)
+    else
+      c = @comment.destroy
+      redirect_to movie_path(c.movie)
+    end
+  end
+
+  def top_commenters
+    @top_commenters = Comment.top_commenters
   end
 
   private
