@@ -15,4 +15,7 @@ Rails.application.routes.draw do
       get :export
     end
   end
+
+  get 'api/v1/movies', to: 'api/v1/movies#index'
+  get 'api/v1/movies/:id', to: 'api/v1/movies#show'
 end
