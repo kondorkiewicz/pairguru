@@ -1,5 +1,19 @@
 %h1= @movie.title
 .jumbotron
-  = @movie.description
+  = image_tag("https://pairguru-api.herokuapp.com/#{@info["poster"]}", width: 200)
+  %div
+    %strong
+      Description:
+    = @movie.description
+  %br
+  %div
+    %strong
+      Plot:
+    = @info["plot"]
+  %br
+  %div
+    %strong
+      Rating:
+    = @info["rating"]
 - if user_signed_in?
   %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'

@@ -1,2 +1,14 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+img {
+  float: left;
+  margin-right: 20px;
+}
+
+.jumbotron::after { 
+   content: " ";
+   display: block;
+   height: 0;
+   clear: both;
+}
