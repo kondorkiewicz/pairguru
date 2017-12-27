@@ -7,7 +7,7 @@ FactoryGirl.define do
 
     trait :with_comment do
       after(:create) do |movie|
-        create_list :comment, 1, user_id: 1, movie: movie
+        create_list :comment, 1, movie: movie
       end
     end
   end
