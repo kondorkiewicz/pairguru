@@ -1,8 +1,9 @@
 %table.table.table-striped
+  - count = ((params[:page] || 1).to_i - 1) * Movie.per_page
   %tbody
-    - movies.each_with_index do |movie, i|
+    - movies.each.with_index(1) do |movie, i|
       %tr
-        %td= i + 1
+        %td= count + i
         %td
           %img.img-rounded{ src: movie.cover }
         %td

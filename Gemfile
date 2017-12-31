@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 gem "rails", "5.1.1"
-
+gem 'will_paginate', '~> 3.1', '>= 3.1.6'
 gem "annotate"
 gem "bootstrap-sass"
 gem "devise"
